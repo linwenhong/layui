@@ -25,7 +25,7 @@ const routes = new Router({
               path: 'index',
               name: 'index',
               meta: {
-                title: 'index'
+                title: '首页'
               },
               component: COMPONENTS.AdminIndexComponent
             },
@@ -33,7 +33,7 @@ const routes = new Router({
               path: 'user',
               name: 'user',
               meta: {
-                title: 'user'
+                title: '用户管理'
               },
               component: COMPONENTS.AdminUserComponent
             }

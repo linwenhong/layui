@@ -31,8 +31,8 @@
         <li class="layui-nav-item layui-nav-itemed">
           <a href="javascript:;">默认展开</a>
           <dl class="layui-nav-child">
-            <dd><a @click.stop="openTag('index')" href="javascript:;">index</a></dd>
-            <dd><a @click.stop="openTag('user')" href="javascript:;">user</a></dd>
+            <dd><a @click="openTag('index')" href="javascript:;">index</a></dd>
+            <dd><a @click="openTag('user')" href="javascript:;">user</a></dd>
             <dd><a href="javascript:;">选项三</a></dd>
             <dd><a href="">跳转项</a></dd>
           </dl>
@@ -78,6 +78,10 @@ export default {
 
   }
 }
+
+layui.use('element', function(){
+  const element = layui.element;
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -90,6 +94,7 @@ export default {
 }
 .left-nav ul {
   position: absolute;
+  z-index: 100;
   left: 0;
   top: 60px;
   height: -webkit-fill-available;
@@ -98,5 +103,9 @@ export default {
 }
 .right-content {
   padding-left: 200px;
+}
+
+.layui-this {
+  background-color: #009688;
 }
 </style>

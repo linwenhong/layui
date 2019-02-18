@@ -14,13 +14,10 @@ export default {
     }
   },
   created () {
-    console.log(Config)
+
   },
   mounted () {
-    console.log(this.$Service)
-    this.$Service.User.get().then(responese => {
-      console.log(responese)
-    })
+
   }
 }
 </script>

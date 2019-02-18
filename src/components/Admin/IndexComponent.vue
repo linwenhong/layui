@@ -1,6 +1,33 @@
 <template>
-  <div>
+  <div class="AdminIndexComponent">
     AdminIndexComponent
+    <div class="dd">
+      <ol class="dd-list">
+        <li class="dd-item" data-id="1">
+          <div class="dd-handle">Item 1</div>
+        </li>
+        <li class="dd-item" data-id="2">
+          <div class="dd-handle">Item 2</div>
+        </li>
+        <li class="dd-item" data-id="3">
+          <div class="dd-handle">Item 3</div>
+          <ol class="dd-list">
+            <li class="dd-item" data-id="4">
+              <div class="dd-handle">Item 4</div>
+            </li>
+            <li class="dd-item" data-id="5" data-foo="bar">
+              <div class="dd-nodrag">Item 5</div>
+            </li>
+            <li class="dd-item" data-id="6">
+              <div class="dd-handle">Item 6</div>
+            </li>
+            <li class="dd-item" data-id="7">
+              <div class="dd-handle">Item 7</div>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </div>
   </div>
 </template>
 
@@ -17,10 +44,8 @@ export default {
     console.log(Config)
   },
   mounted () {
+    $('.dd').nestable()
     console.log(this.$Service)
-    this.$Service.User.get().then(responese => {
-      console.log(responese)
-    })
   }
 }
 </script>

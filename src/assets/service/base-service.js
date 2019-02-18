@@ -73,7 +73,6 @@ let tokenInfo = true
 function tokenExpire () {
   if (!tokenInfo) return
   tokenInfo = false
-  toastr.info('登录验证过期,请重新登录')
 
   setTimeout(() => {
     tokenInfo = true
