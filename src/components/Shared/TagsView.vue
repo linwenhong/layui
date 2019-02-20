@@ -59,8 +59,7 @@ export default {
             break
           }
         }
-//        if (!isHasView) this.$store.dispatch('addVisitedViews',route);
-        this.$store.dispatch('addVisitedViews',route);
+        if (!isHasView) this.$store.dispatch('addVisitedViews',route);
       }
     },
     delSelectTag (route) {//先提交删除数据的方法,数组删除出掉数据后，如果关闭的是当前打开的路由需要将路由改为数组最后一次push进去的路由
@@ -76,6 +75,9 @@ export default {
       })
     },
     prevPage () {
+      this.nextPage(false)
+    },
+    nextPage (isNext = true) {
       const tabs = this.$refs.tabs.getElementsByTagName('li')
       const tagsNode = [0]
       for (const tab of tabs) {
@@ -91,48 +93,32 @@ export default {
 
       const left = this.$refs.tabs.style.left // 标签列表偏移量,带px的字符串
       const leftNode = Math.abs(left.split('px')[0])  // 标签列表偏移量取绝对值,Number类型
-      console.log(leftNode)
-      console.log(viewWidth)
-      console.log(tabsWidth)
-      if (leftNode <= viewWidth) {
-        this.$refs.tabs.style.left = 0
-      } else {
-        const ContrastValue = leftNode - viewWidth
+
+      if (isNext) { // 下一页
+        if (tabsWidth - leftNode <= viewWidth)  return; // 视图首个标签开始, 后面部分不超过视图宽度(不足以翻页)
+
+        const ContrastValue = viewWidth + leftNode  // 翻页对比值
+
         for (const index in tagsNode) {
           if (index > 0 && tagsNode[index] > ContrastValue && tagsNode[index - 1] <= ContrastValue) {
             this.$refs.tabs.style.left = - tagsNode[index - 1] + 'px'
             break
           }
         }
-      }
-    },
-    nextPage () {
-      const tabs = this.$refs.tabs.getElementsByTagName('li')
-      const tagsNode = [0]
-      for (const tab of tabs) {
-        const node = tab.offsetWidth + tagsNode[tagsNode.length - 1]
-        tagsNode.push(node)
-      }
-      console.log(tagsNode)
-
-      const viewWidth = this.$refs.tabsView.offsetWidth - 120 // 标签栏视图宽度
-      const tabsWidth = this.$refs.tabs.offsetWidth // 标签列表中宽度
-
-      if (tabsWidth <= viewWidth) return; // 总宽度不超过视图宽度
-
-      const left = this.$refs.tabs.style.left // 标签列表偏移量,带px的字符串
-      const leftNode = Math.abs(left.split('px')[0])  // 标签列表偏移量取绝对值,Number类型、
-
-      if (tabsWidth - leftNode <= viewWidth)  return; // 视图首个标签开始, 后面部分不超过视图宽度(不足以翻页)
-
-      const ContrastValue = viewWidth + leftNode  // 翻页对比值
-
-      for (const index in tagsNode) {
-        if (index > 0 && tagsNode[index] > ContrastValue && tagsNode[index - 1] <= ContrastValue) {
-          this.$refs.tabs.style.left = - tagsNode[index - 1] + 'px'
-          break
+      } else {  // 上一页
+        if (leftNode <= viewWidth) {
+          this.$refs.tabs.style.left = 0
+        } else {
+          const ContrastValue = leftNode - viewWidth
+          for (const index in tagsNode) {
+            if (index > 0 && tagsNode[index] > ContrastValue && tagsNode[index - 1] <= ContrastValue) {
+              this.$refs.tabs.style.left = - tagsNode[index - 1] + 'px'
+              break
+            }
+          }
         }
       }
+
     }
   }
 }

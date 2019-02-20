@@ -25,4 +25,7 @@ export default {
   margin: 0;
   padding: 0;
 }
+.page {
+  padding: 0 15px;
+}
 </style>
