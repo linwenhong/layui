@@ -1,0 +1,2 @@
+webpackJsonp([0],{tXtI:function(t,e){},uuCP:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var a={render:function(){var t=this.$createElement,e=this._self._c||t;return e("div",{staticClass:"admin-page"},[e("router-view")],1)},staticRenderFns:[]};var r=n("VU/8")({name:"AdminComponent",data:function(){return{}},created:function(){},mounted:function(){}},a,!1,function(t){n("tXtI")},"data-v-e9b86fe2",null);e.default=r.exports}});
+//# sourceMappingURL=0.1056301ba3eaf992fb54.js.map
