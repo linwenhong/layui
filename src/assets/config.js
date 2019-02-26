@@ -16,7 +16,7 @@ switch (env) {
     Config.base_url = 'http://localhost:8085/'
     break
   default:
-    console.log('Config error')
+    console.error('Config error')
 }
 
-export default Config
+module.exports = Config

@@ -3,19 +3,6 @@
     AdminUserComponent
     <button class="layui-btn layui-btn-sm" @click="search">搜索</button>
     <table class="layui-hide" id="table" lay-filter="table"></table>
-
-
-    <div :class="showModal ? 'modal-show' : 'modal-hide'">
-      <div style="height: 50px;background-color: #999;"></div>
-      <div style="overflow: auto; height: 300px" ref="box">
-        <div style="background-color: #FF00FF" ref="content">
-          <div v-for="item in items" class="item" ref="items">
-            <p style="height: 100px"></p>
-          </div>
-        </div>
-      </div>
-      <div style="height: 50px;background-color: #999;"></div>
-    </div>
   </div>
 </template>
 
@@ -36,7 +23,7 @@
           {field: 'joinTime', title: '加入时间'},
           {
             field: 'right', title: '操作', width: 180,
-            toolbar: '#bar'
+            toolbar: '#toolbar'
           }
         ],
         tableData: [
@@ -49,36 +36,11 @@
             joinTime: '2019-02-19'
           }
         ],
-        items: [],
-        selectItem: {},
-        showModal: false,
-        table: null
+        layui: null
       }
     },
     methods: {
-      openModal (item) {
-        this.showModal = true
-        this.items = [1,2,3,4,5,6,7,8,9]
-        this.$nextTick(() => {
-          this.computedModalHeight()
-          const items = this.$refs.items
-          const img = new Image()
-          img.src = 'http://api.hzoa.test.ywqian.com/pc/images/8d7d0a3c7a6dab2442485c64017f1546.jpg'
-          img.style.width = '200px'
-          items[0].appendChild(img)
-          img.onload = () => {
-            this.computedModalHeight()
-          }
-        })
-
-      },
-      computedModalHeight () {
-        this.$nextTick(() => {
-          this.$refs.box.scrollTop = this.$refs.content.clientHeight
-        })
-      },
       search () {
-        console.log(1)
         this.tableData = [
           {
             id: 2,
@@ -89,56 +51,36 @@
             joinTime: '2019-02-19'
           }
         ]
-        this.table.render({
-          elem: '#table',
-          toolbar: true,
-          title: '用户数据表',
-          totalRow: true,
-          cols: [this.cols],
-          data: this.tableData,
-          page: true
-        });
+        this.tableRender()
+      },
+      getTableOption () {
+        return {
+          tableElem: '#table',
+          tableTitle: '用户数据表',
+          tableCols: this.cols,
+          tableData: this.tableData
+        }
+      },
+      tableRender () {
+        this.$layui.Table.render(this.layui.table, this.getTableOption())
+      },
+      tableUpdate (data) {
+        console.log('update')
+        console.log(data)
+      },
+      tableDelete (data) {
+        console.log('delete')
+        console.log(data)
       }
     },
     created () {
-
+      console.log(this.$Service)
+      console.log(this.$Config)
+      console.log(this.$Method)
+      console.log(this.$layui)
     },
     mounted () {
-      const html = '<script type="text/html" id="bar">' +
-        '<div class="layui-btn-container">' +
-        '<button class="layui-btn layui-btn-sm" lay-event="add">添加<\/button>' +
-        '<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update">编辑<\/button>' +
-        '<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete">删除<\/button>' +
-        '<\/div>' +
-        '<\/script>'
-      $('.page').append(html)
-
-      layui.use('table', () => {
-        this.table = layui.table;
-
-        this.table.render({
-          elem: '#table',
-          toolbar: true,
-          title: '用户数据表',
-          totalRow: true,
-          cols: [this.cols],
-          data: this.tableData,
-          page: true
-        });
-
-        this.table.on('tool(table)', obj => {
-          const data = obj.data;
-          if(obj.event === 'delete'){
-            obj.del()
-          }
-          if(obj.event === 'update'){
-            this.openModal(data)
-          }
-        });
-
-      });
-
-
+      this.layui = this.$layui.Table.init(this, this.getTableOption())
     }
   }
 </script>

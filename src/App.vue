@@ -27,5 +27,6 @@ export default {
 }
 .page {
   padding: 0 15px;
+  min-height: 450px;
 }
 </style>

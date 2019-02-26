@@ -7,7 +7,7 @@
       <ul class="layui-tab-title" id="LAY_app_tabsheader" style="left: 0px;" ref="tabs">
         <li><i class="layui-icon layui-icon-home"></i></li>
         <template v-for="(tag, index) in Array.from(visitedViews)">
-          <li @click.stop="openTag(tag.name)" :class="index == 0 ? 'layui-this' : ''">
+          <li @click.stop="openTag(tag.name)" :class="tag.name == selectTagName ? 'layui-this' : ''">
             <router-link :to="tag.path" :key="tag.path"  class="tags-view-item" :class="isActive(tag)?'active':''">
               <span>{{ tag.title }}</span><i @click.prevent.stop="delSelectTag(tag)" class="layui-icon layui-unselect layui-tab-close">ဆ</i>
             </router-link>
@@ -23,7 +23,10 @@
 export default {
   name: 'TagsView',
   props: {
-
+    selectTagName: {
+      type: String,
+      required: true
+    }
   },
   data () {
     return {
@@ -44,6 +47,7 @@ export default {
   },
   methods: {
     openTag (name) {
+      this.$emit('selectTagNameChange', name)
       this.$router.push({ name: name })
     },
     isActive (route) {

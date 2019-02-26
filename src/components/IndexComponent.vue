@@ -28,30 +28,27 @@
 
     <div class="left-nav">
       <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
-        <li class="layui-nav-item layui-nav-itemed">
-          <a href="javascript:;">默认展开</a>
-          <dl class="layui-nav-child">
-            <dd><a @click="openTag('index')" href="javascript:;">index</a></dd>
-            <dd><a @click="openTag('user')" href="javascript:;">user</a></dd>
-            <dd><a href="javascript:;">选项三</a></dd>
-            <dd><a href="">跳转项</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item">
-          <a href="javascript:;">解决方案</a>
-          <dl class="layui-nav-child">
-            <dd><a href="">移动模块</a></dd>
-            <dd><a href="">后台模版</a></dd>
-            <dd><a href="">电商平台</a></dd>
-          </dl>
-        </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">社区</a></li>
+        <template v-for="(option, index) of navOptions">
+          <template v-if="option.children">
+            <li class="layui-nav-item" :class="index == 0 ? 'layui-nav-itemed' : ''">
+              <a href="javascript:;">{{ option.title }}</a>
+              <dl class="layui-nav-child">
+                <dd v-for="item of option.children" :class="item.routeName == selectTagName ? 'layui-this' : ''">
+                  <a @click="openTag(item.routeName)" href="javascript:;">{{ item.title }}</a>
+                </dd>
+              </dl>
+            </li>
+          </template>
+
+          <template v-else>
+            <li :class="option.routeName == selectTagName ? 'layui-this' : ''" class="layui-nav-item" @click="openTag(option.routeName)"><a href="javascript:;">{{ option.title }}</a></li>
+          </template>
+        </template>
       </ul>
     </div>
 
     <div class="right-content">
-      <TagsView/>
+      <TagsView ref="tagsVies" :selectTagName="selectTagName" @selectTagNameChange="selectTagNameChange" />
       <router-view/>
     </div>
 
@@ -64,11 +61,47 @@ export default {
   name: 'IndexComponent',
   data () {
     return {
+      selectTagName: null,
+      navOptions: [
+        {
+          title: '默认展开',
+          children: [
+            {
+              title: 'index',
+              routeName: 'index'
+            },
+            {
+              title: 'user',
+              routeName: 'user'
+            }
+          ]
+        },
+        {
+          title: '解决方案',
+          children: [
+            {
+              title: 'index',
+              routeName: 'index'
+            },
+            {
+              title: 'user',
+              routeName: 'user'
+            }
+          ]
+        },
+        {
+          title: 'user',
+          routeName: 'user'
+        }
+      ]
     }
   },
   methods: {
     openTag (name) {
-      this.$router.push({ name: name })
+      this.$refs.tagsVies.openTag(name)
+    },
+    selectTagNameChange (name) {
+      this.selectTagName = name
     }
   },
   created () {
@@ -79,9 +112,7 @@ export default {
   }
 }
 
-layui.use('element', function(){
-  const element = layui.element;
-});
+layui.use(['element', 'table'], function(){ });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -16,7 +16,7 @@ function createService (url) {
     del: (id, request) => { return del(url + '/' + id, request) }
   }
 }
-const User = createService('user')  
+const User = createService('user')
 
 export default {
   User

@@ -12,6 +12,9 @@ Vue.config.productionTip = false
 
 
 Vue.prototype.$Service = require('@/assets/service/service.js').default
+Vue.prototype.$Config = require('@/assets/config.js')
+Vue.prototype.$Method = require('@/assets/method.js')
+Vue.prototype.$layui = require('@/assets/layui')
 
 /* eslint-disable no-new */
 new Vue({
