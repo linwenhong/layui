@@ -23,10 +23,7 @@
 export default {
   name: 'TagsView',
   props: {
-    selectTagName: {
-      type: String,
-      required: true
-    }
+    selectTagName: String
   },
   data () {
     return {
